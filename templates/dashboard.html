@@ -1,1 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4">Bienvenido al Panel de Mensajes Masivos</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Enviar un mensaje</h5>
+                <p class="card-text">Redacta y envía mensajes a tus listas.</p>
+                <a href="{{ url_for('send_message') }}" class="btn btn-light">Ir a Envío</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Administrar contactos</h5>
+                <p class="card-text">Agrega o gestiona tus contactos.</p>
+                <a href="{{ url_for('manage_contacts') }}" class="btn btn-light">Ver contactos</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Ver historial</h5>
+                <p class="card-text">Consulta el historial de envíos.</p>
+                <a href="{{ url_for('view_history') }}" class="btn btn-light">Ver historial</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
