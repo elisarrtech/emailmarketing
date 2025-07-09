@@ -1,1 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Historial de Envíos</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Asunto</th>
+            <th>Destinatarios</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for msg in messages %}
+        <tr>
+            <td>{{ msg[0] }}</td>
+            <td>{{ msg[1] }}</td>
+            <td>{{ msg[2] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
 
