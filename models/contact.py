@@ -2,6 +2,7 @@ import sqlite3
 
 DB_PATH = 'contacts.db'
 
+# ⚙️ Inicializar tabla
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -16,6 +17,7 @@ def init_db():
     conn.commit()
     conn.close()
 
+# ➕ Agregar un contacto
 def add_contact(name, email, tag=''):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -23,14 +25,19 @@ def add_contact(name, email, tag=''):
     conn.commit()
     conn.close()
 
-def get_all_contacts():
+# 🔍 Traer contactos con filtro opcional
+def get_all_contacts(tag_filter=None):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute('SELECT id, name, email, tag FROM contacts')
+    if tag_filter:
+        cursor.execute('SELECT id, name, email, tag FROM contacts WHERE tag LIKE ?', ('%' + tag_filter + '%',))
+    else:
+        cursor.execute('SELECT id, name, email, tag FROM contacts')
     contacts = cursor.fetchall()
     conn.close()
     return contacts
 
+# ❌ Eliminar contacto
 def delete_contact(contact_id):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
