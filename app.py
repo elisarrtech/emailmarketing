@@ -17,19 +17,18 @@ app.secret_key = 'clave_secreta_para_flash'
 def dashboard():
     return render_template('dashboard.html')
 
-# Página de envío de mensajes (GET)
+# ✅ Ruta GET /send → cargar contactos
 @app.route('/send', methods=['GET'])
 def send_message():
-    # Cargar contactos para mostrar (opcional para después)
-    contacts = get_all_contacts()
+    contacts = get_all_contacts()  # Traemos todos los contactos
     return render_template('send_message.html', contacts=contacts)
 
-# Envío de mensajes (POST)
+# ✅ Ruta POST /send → procesar formulario
 @app.route('/send', methods=['POST'])
 def send_message_post():
     subject = request.form['subject']
     body = request.form['body']
-    recipients = [email.strip() for email in request.form['recipients'].split(',')]
+    recipients = request.form.getlist('recipients')  # ← aquí el cambio
     attachment = request.files.get('attachment')
 
     # Guardar archivo temporal si hay
@@ -54,7 +53,7 @@ def send_message_post():
 
     return redirect(url_for('send_message'))
 
-# Gestión de contactos (ver y agregar)
+# ✅ Gestión de contactos con filtro por etiqueta
 @app.route('/contacts', methods=['GET', 'POST'])
 def manage_contacts():
     if request.method == 'POST':
@@ -65,23 +64,25 @@ def manage_contacts():
         flash('Contacto agregado con éxito', 'success')
         return redirect(url_for('manage_contacts'))
 
-    contacts = get_all_contacts()
-    return render_template('manage_contacts.html', contacts=contacts)
+    # Filtro por etiqueta
+    tag_filter = request.args.get('tag')
+    contacts = get_all_contacts(tag_filter)
+    return render_template('manage_contacts.html', contacts=contacts, tag_filter=tag_filter)
 
-# Eliminar contacto
+# ✅ Eliminar contacto
 @app.route('/contacts/delete/<int:contact_id>')
 def delete_contact_route(contact_id):
     delete_contact(contact_id)
     flash('Contacto eliminado', 'warning')
     return redirect(url_for('manage_contacts'))
 
-# Ver historial
+# ✅ Ver historial
 @app.route('/history')
 def view_history():
     messages = get_all_messages()
     return render_template('history.html', messages=messages)
 
-# Puerto y host para Render
+# Render: puerto y host externo
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
