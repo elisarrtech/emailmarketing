@@ -3,6 +3,19 @@
 <h2 class="mb-4">Enviar un Mensaje</h2>
 
 <form action="{{ url_for('send_message_post') }}" method="POST" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label class="form-label">Selecciona destinatarios</label><br>
+        {% for contact in contacts %}
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="recipients" value="{{ contact[2] }}" id="contact_{{ contact[0] }}">
+                <label class="form-check-label" for="contact_{{ contact[0] }}">
+                    {{ contact[1] }} ({{ contact[2] }}) - {{ contact[3] or 'Sin etiqueta' }}
+                </label>
+            </div><br>
+        {% endfor %}
+    </div>
+
     <div class="mb-3">
         <label for="subject" class="form-label">Asunto</label>
         <input type="text" class="form-control" id="subject" name="subject" required>
@@ -14,11 +27,6 @@
     </div>
 
     <div class="mb-3">
-        <label for="recipients" class="form-label">Destinatarios (separados por coma)</label>
-        <input type="text" class="form-control" id="recipients" name="recipients" placeholder="ejemplo1@mail.com, ejemplo2@mail.com" required>
-    </div>
-
-    <div class="mb-3">
         <label for="attachment" class="form-label">Adjuntar archivo (opcional)</label>
         <input class="form-control" type="file" id="attachment" name="attachment">
     </div>
@@ -26,4 +34,3 @@
     <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
 {% endblock %}
-
