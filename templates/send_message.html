@@ -7,12 +7,12 @@
     <div class="mb-3">
         <label class="form-label">Selecciona destinatarios</label><br>
         {% for contact in contacts %}
-            <div class="form-check form-check-inline">
+            <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="recipients" value="{{ contact[2] }}" id="contact_{{ contact[0] }}">
                 <label class="form-check-label" for="contact_{{ contact[0] }}">
-                    {{ contact[1] }} ({{ contact[2] }}) - {{ contact[3] or 'Sin etiqueta' }}
+                    <strong>{{ contact[1] }}</strong> - {{ contact[2] }}{% if contact[3] %} <span class="badge bg-secondary">{{ contact[3] }}</span>{% endif %}
                 </label>
-            </div><br>
+            </div>
         {% endfor %}
     </div>
 
