@@ -2,20 +2,6 @@
 {% block content %}
 <h2 class="mb-4">Enviar un Mensaje</h2>
 
-<!-- TinyMCE Editor -->
-<script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
-<script>
-  tinymce.init({
-    selector: '#body',
-    menubar: false,
-    plugins: 'lists link',
-    toolbar: 'undo redo | bold italic underline | bullist numlist | link removeformat',
-    height: 300
-  });
-</script>
-
-
-
 <form action="{{ url_for('send_message_post') }}" method="POST" enctype="multipart/form-data">
 
     <div class="mb-3">
@@ -47,4 +33,17 @@
 
     <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
+
+<!-- TinyMCE al final del contenido -->
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
+<script>
+  tinymce.init({
+    selector: '#body',
+    menubar: false,
+    plugins: 'lists link',
+    toolbar: 'undo redo | bold italic underline | bullist numlist | link removeformat',
+    height: 300
+  });
+</script>
+
 {% endblock %}
