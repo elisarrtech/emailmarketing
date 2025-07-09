@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from services.email_service import send_email
 from models.contact import init_db as init_contacts_db, add_contact, get_all_contacts, delete_contact
 from models.message import init_history as init_history_db, save_message, get_all_messages
+from import_export.import_contacts import import_contacts_from_csv
 import os
 
 # Inicializar base de datos
@@ -20,7 +21,7 @@ def dashboard():
 # ✅ Ruta GET /send → cargar contactos
 @app.route('/send', methods=['GET'])
 def send_message():
-    contacts = get_all_contacts()  # Traemos todos los contactos
+    contacts = get_all_contacts()
     return render_template('send_message.html', contacts=contacts)
 
 # ✅ Ruta POST /send → procesar formulario
@@ -28,7 +29,7 @@ def send_message():
 def send_message_post():
     subject = request.form['subject']
     body = request.form['body']
-    recipients = request.form.getlist('recipients')  # ← aquí el cambio
+    recipients = request.form.getlist('recipients')
     attachment = request.files.get('attachment')
 
     # Guardar archivo temporal si hay
@@ -64,7 +65,6 @@ def manage_contacts():
         flash('Contacto agregado con éxito', 'success')
         return redirect(url_for('manage_contacts'))
 
-    # Filtro por etiqueta
     tag_filter = request.args.get('tag')
     contacts = get_all_contacts(tag_filter)
     return render_template('manage_contacts.html', contacts=contacts, tag_filter=tag_filter)
@@ -81,6 +81,27 @@ def delete_contact_route(contact_id):
 def view_history():
     messages = get_all_messages()
     return render_template('history.html', messages=messages)
+
+# ✅ Importar contactos desde CSV
+@app.route('/import', methods=['GET', 'POST'])
+def import_contacts():
+    if request.method == 'POST':
+        file = request.files.get('file')
+        if file and file.filename.endswith('.csv'):
+            os.makedirs('temp', exist_ok=True)
+            file_path = os.path.join('temp', file.filename)
+            file.save(file_path)
+
+            import_contacts_from_csv(file_path)
+            os.remove(file_path)
+
+            flash('Contactos importados con éxito', 'success')
+        else:
+            flash('Por favor sube un archivo CSV válido', 'danger')
+
+        return redirect(url_for('manage_contacts'))
+
+    return render_template('import_contacts.html')
 
 # Render: puerto y host externo
 if __name__ == '__main__':
