@@ -2,7 +2,8 @@
 {% block content %}
 <h2>Gestión de Contactos</h2>
 
-<form method="POST" action="{{ url_for('add_contact') }}" class="mb-4">
+<form method="POST" action="{{ url_for('manage_contacts') }}" class="mb-4">
+
     <div class="row">
         <div class="col">
             <input type="text" name="name" class="form-control" placeholder="Nombre" required>
