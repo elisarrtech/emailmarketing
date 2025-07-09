@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Importar Contactos desde CSV</h2>
+
+<form method="POST" enctype="multipart/form-data" class="mb-4">
+    <div class="mb-3">
+        <label for="file" class="form-label">Selecciona un archivo CSV</label>
+        <input type="file" name="file" class="form-control" required accept=".csv">
+    </div>
+    <button type="submit" class="btn btn-primary">Importar</button>
+</form>
+
+<p>Formato esperado del CSV:</p>
+<pre>
+name,email,tag
+Juan Pérez,juan@email.com,ventas
+Ana López,ana@email.com,marketing
+</pre>
+
+{% endblock %}
