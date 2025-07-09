@@ -2,10 +2,13 @@ import smtplib
 from email.message import EmailMessage
 
 # Configura tus credenciales SMTP aquí o carga desde config.py
-SMTP_SERVER = 'smtp.gmail.com'
+
+import os
+
+SMTP_USER = os.environ.get('SMTP_USER')
+SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')
 SMTP_PORT = 587
-SMTP_USER = 'misselisavirtual@gmail.com'
-SMTP_PASSWORD = 'wfzm dvbg hjng vrru'
+
 
 def send_email(subject, body, recipients, attachment_path=None):
     msg = EmailMessage()
