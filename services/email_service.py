@@ -4,8 +4,8 @@ from email.message import EmailMessage
 # Configura tus credenciales SMTP aquí o carga desde config.py
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 587
-SMTP_USER = 'tucorreo@gmail.com'
-SMTP_PASSWORD = 'tu_contraseña_app'
+SMTP_USER = 'misselisavirtual@gmail.com'
+SMTP_PASSWORD = 'wfzm dvbg hjng vrru'
 
 def send_email(subject, body, recipients, attachment_path=None):
     msg = EmailMessage()
