@@ -34,7 +34,7 @@
     <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
 
-<!-- TinyMCE al final del contenido -->
+<!-- TinyMCE al final, aislado -->
 <script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
 <script>
   tinymce.init({
@@ -42,8 +42,9 @@
     menubar: false,
     plugins: 'lists link',
     toolbar: 'undo redo | bold italic underline | bullist numlist | link removeformat',
-    height: 300
+    height: 300,
+    content_css: false,  // ✅ Evita que TinyMCE sobrescriba estilos globales
+    branding: false
   });
 </script>
-
 {% endblock %}
